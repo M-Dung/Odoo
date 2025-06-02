@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_order_report,access.sale.order.report,sale.model_sale_order,base.group_user,1,0,0,0
+access_product_product_report,access.product.product.report,stock.model_product_product,base.group_user,1,0,0,0
+access_product_template_report,access.product.template.report,stock.model_product_template,base.group_user,1,0,0,0
+access_crm_lead,crm.lead,crm.model_crm_lead,base.group_user,1,0,0,0

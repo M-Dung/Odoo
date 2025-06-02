@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <menuitem
+                id="menu_custom_reports_root"
+                name="Custom Reports"
+                sequence="90"
+                web_icon="custom_reports,static/description/icon.png"/>
+        <menuitem
+                id="menu_sale_order_statistics_act"
+                name="Sale Order Statistics"
+                parent="menu_custom_reports_root"
+                action="action_sale_order_statistics_custom"
+                sequence="20"
+        />
+        <menuitem
+                id="menu_inventory_report_act"
+                name="Inventory Reports"
+                parent="menu_custom_reports_root"
+                action="action_product_inventory_report_custom"
+                sequence="10"
+        />
+        <menuitem id="menu_crm_lead_report_act"
+                  name="Lead Reports"
+                  parent="menu_custom_reports_root"
+                  action="action_crm_lead_report"
+                  sequence="30"
+        />
+    </data>
+</odoo>

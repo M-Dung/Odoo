@@ -1,0 +1,48 @@
+<odoo>
+    <!-- Tree view -->
+    <record id="view_crm_lead_report_list" model="ir.ui.view">
+        <field name="name">crm.lead.report.list</field>
+        <field name="model">crm.lead</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="stage_id"/>
+                <field name="type"/>
+                <field name="probability"/>
+                <field name="expected_revenue"/>
+                <field name="date_deadline"/>
+                <field name="create_date"/>
+                <field name="source_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search view -->
+    <record id="view_crm_lead_report_search" model="ir.ui.view">
+        <field name="name">crm.lead.report.search</field>
+        <field name="model">crm.lead</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Tên cơ hội"/>
+                <field name="user_id" string="Người phụ trách"/>
+                <field name="stage_id" string="Giai đoạn"/>
+                <field name="partner_id" string="Khách hàng"/>
+                <field name="create_date" string="Ngày tạo"/>
+                <filter name="group_stage" string="Nhóm theo Giai đoạn" context="{'group_by':'stage_id'}"/>
+                <filter name="group_salesperson" string="Nhóm theo Người phụ trách" context="{'group_by':'user_id'}"/>
+                <filter name="group_source" string="Nhóm theo Nguồn" context="{'group_by':'source_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_crm_lead_report" model="ir.actions.act_window">
+        <field name="name">Báo cáo Cơ hội</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="view_crm_lead_report_search"/>
+        <field name="domain">[('type','=','opportunity')]</field>
+    </record>
+</odoo>
