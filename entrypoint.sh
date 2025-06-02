@@ -9,7 +9,7 @@ export DB_PORT=5432
 export DB_NAME=odoo_w39a
 
 echo "🔄 Updating database..."
-odoo -c /etc/odoo/debian/odoo.conf \
+odoo -c /etc/odoo/odoo.conf \
   --db_host=$DB_HOST \
   --db_port=$DB_PORT \
   --db_user=$DB_USER \
@@ -17,7 +17,7 @@ odoo -c /etc/odoo/debian/odoo.conf \
   -d $DB_NAME -u all --stop-after-init || echo "⚠️ DB update failed, but continuing..."
 
 echo "🚀 Starting Odoo..."
-exec odoo -c /etc/odoo/debian/odoo.conf \
+exec odoo -c /etc/odoo/odoo.conf \
   --db_host=$DB_HOST \
   --db_port=$DB_PORT \
   --db_user=$DB_USER \
