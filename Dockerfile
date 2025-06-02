@@ -1,23 +1,40 @@
-#!/bin/bash
-set -e
+# Dựa trên image Odoo 18 chính thức
+FROM odoo:18.0
 
-export DB_USER=odoo
-export DB_PASSWORD=...
-export DB_HOST=...
-export DB_PORT=5432
-export DB_NAME=...
+# Chạy dưới quyền root để cài đặt các thư viện cần thiết
+USER root
 
-# Chạy cập nhật database (nếu cần)
-odoo -c /etc/odoo/odoo.conf \
-  --db_host=$DB_HOST \
-  --db_port=$DB_PORT \
-  --db_user=$DB_USER \
-  --db_password=$DB_PASSWORD \
-  -d $DB_NAME -u all --stop-after-init
+# Cài các thư viện hệ thống cần để build python-ldap (bắt buộc cho Odoo)
+RUN apt-get update && apt-get install -y \
+    libldap2-dev \
+    libsasl2-dev \
+    libssl-dev \
+    gcc \
+    python3-dev \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
-# Khởi động Odoo chính thức
-exec odoo -c /etc/odoo/odoo.conf \
-  --db_host=$DB_HOST \
-  --db_port=$DB_PORT \
-  --db_user=$DB_USER \
-  --db_password=$DB_PASSWORD
+# Cài pip & requirements (vẫn dùng root)
+RUN pip3 install --break-system-packages --no-cache-dir --ignore-installed pip setuptools wheel
+
+# Copy file requirements vào container và cài
+COPY requirements.txt /tmp/
+RUN pip3 install --break-system-packages --no-cache-dir -r /tmp/requirements.txt
+
+# Copy custom addons vào đúng thư mục
+COPY ./custom_addons /mnt/extra-addons
+
+# Copy file cấu hình Odoo & script entrypoint
+COPY ./debian/odoo.conf /etc/odoo/odoo.conf
+COPY ./entrypoint.sh /entrypoint.sh
+
+# Chạy chmod để đảm bảo entrypoint được thực thi
+RUN chmod +x /entrypoint.sh
+
+# Mở cổng mặc định của Odoo
+EXPOSE 8069
+
+# Đổi lại user về 'odoo' cho an toàn
+USER odoo
+
+# Dùng entrypoint là file shell vừa
