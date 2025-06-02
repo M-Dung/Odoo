@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Cài pip và các requirements (vẫn dùng root)
-RUN pip3 install --upgrade pip setuptools wheel --break-system-packages
+RUN pip3 install --break-system-packages --no-cache-dir --ignore-installed pip setuptools wheel
 
 COPY requirements.txt /tmp/
 RUN pip3 install --break-system-packages --no-cache-dir -r /tmp/requirements.txt
