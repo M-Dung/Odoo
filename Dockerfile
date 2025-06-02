@@ -12,21 +12,23 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-USER odoo
-
-# Nâng cấp pip trước
+# Cài pip và các requirements (vẫn dùng root)
 RUN pip3 install --upgrade pip setuptools wheel --break-system-packages
 
-# Cài đặt requirements với --break-system-packages và không cache
 COPY requirements.txt /tmp/
 RUN pip3 install --break-system-packages --no-cache-dir -r /tmp/requirements.txt
 
-# Copy custom addons nếu có
+# Copy custom addons
 COPY ./custom_addons /mnt/extra-addons
 
-# Copy file cấu hình và entrypoint script
+# Copy cấu hình và entrypoint
 COPY ./debian/odoo.conf /etc/odoo/odoo.conf
 COPY ./entrypoint.sh /entrypoint.sh
+
+# ⚠️ Chạy chmod khi vẫn còn quyền root!
 RUN chmod +x /entrypoint.sh
+
+# Quay lại user odoo để chạy an toàn
+USER odoo
 
 ENTRYPOINT ["/entrypoint.sh"]
