@@ -5,10 +5,10 @@ COPY requirements.txt /tmp/
 RUN pip3 install -r /tmp/requirements.txt
 
 # Copy custom addons nếu có
-COPY ./addons /mnt/extra-addons
+COPY ./custom_addons /mnt/extra-addons
 
 # Copy file cấu hình
-COPY ./odoo.conf /etc/odoo/odoo.conf
+COPY ./debian/odoo.conf /etc/odoo/odoo.conf
 
 # Entrypoint để khởi động đúng cách
 COPY ./entrypoint.sh /entrypoint.sh
