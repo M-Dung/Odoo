@@ -1,8 +1,11 @@
 #!/bin/bash
 set -e
 
-# Chạy lệnh update database nếu cần
-odoo -c /etc/odoo/odoo.conf -d $odoo -u all --stop-after-init || true
+# Tên database mặc định nếu không được gán từ biến môi trường
+DB_NAME=${DB_NAME:-odoo}
+
+# Cập nhật database (nếu cần)
+odoo -c /etc/odoo/odoo.conf -d $DB_NAME -u all --stop-after-init || true
 
 # Khởi động Odoo
 exec odoo -c /etc/odoo/odoo.conf
