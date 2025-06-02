@@ -4,7 +4,7 @@ set -e
 # Thông tin database
 export DB_USER=odoo
 export DB_PASSWORD=F4ezsf6ielcYjjI1iJ9XeYWQ34HQVL3
-export DB_HOST=dpg-d0uviidbod4c73b6ijig-a
+export DB_HOST=dpg-d0uiviidbo4c73b6ijig-a
 export DB_PORT=5432
 export DB_NAME=odoo_w39a
 
